@@ -1,0 +1,74 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global safety net catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Global helpers
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isEmailVerified() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Entity validations
+    function isValidUser(data) {
+      return data.uid is string && data.uid.size() <= 128 &&
+             data.email is string && data.email.size() <= 256 &&
+             data.workStart is string && data.workStart.size() == 5 &&
+             data.workEnd is string && data.workEnd.size() == 5 &&
+             data.freeStart is string && data.freeStart.size() == 5 &&
+             data.freeEnd is string && data.freeEnd.size() == 5 &&
+             data.emergencyPassesUsed is int && data.emergencyPassesUsed >= 0 && data.emergencyPassesUsed <= 10;
+    }
+
+    function isValidTask(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.userId is string && data.userId.size() <= 128 &&
+             data.title is string && data.title.size() <= 200 &&
+             data.description is string && data.description.size() <= 2000 &&
+             data.deadline is string && data.deadline.size() <= 100 &&
+             data.importance is string && (data.importance == 'low' || data.importance == 'medium' || data.importance == 'high') &&
+             data.userPreference is string && (data.userPreference == 'low' || data.userPreference == 'medium' || data.userPreference == 'high') &&
+             data.isPrimary is bool &&
+             data.workHoursOption is string && (data.workHoursOption == 'free' || data.workHoursOption == 'both') &&
+             data.reinforcementTyped is string && data.reinforcementTyped.size() <= 1000 &&
+             data.status is string && (data.status == 'pending' || data.status == 'reinforcing' || data.status == 'active' || data.status == 'completed') &&
+             data.steps is list && data.steps.size() <= 20;
+    }
+
+    // User collection rules
+    match /users/{userId} {
+      allow get: if isSignedIn() && userId == request.auth.uid;
+      allow create: if isSignedIn() && userId == request.auth.uid && isValidUser(incoming()) && incoming().uid == request.auth.uid;
+      allow update: if isSignedIn() && userId == request.auth.uid && isValidUser(incoming()) && incoming().uid == existing().uid && incoming().email == existing().email;
+      allow delete: if isSignedIn() && userId == request.auth.uid;
+    }
+
+    // Task collection rules
+    match /tasks/{taskId} {
+      allow get: if isSignedIn() && existing().userId == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(taskId) && isValidTask(incoming()) && incoming().userId == request.auth.uid;
+      allow update: if isSignedIn() && isValidId(taskId) && existing().userId == request.auth.uid && isValidTask(incoming()) && incoming().userId == existing().userId;
+      allow delete: if isSignedIn() && existing().userId == request.auth.uid;
+    }
+  }
+}

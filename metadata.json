@@ -1,0 +1,6 @@
+{
+  "name": "AI Productivity Companion",
+  "description": "An active accountability partner that helps you decompose, schedule, reinforce, and lock focus to complete critical tasks before deadlines.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

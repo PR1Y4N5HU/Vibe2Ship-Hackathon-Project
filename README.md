@@ -1,26 +1,20 @@
-# Vibe2Ship-Hackathon-Project
-An AI-powered productivity companion that helps users take action before deadlines, not just set reminders.
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
+</div>
 
-# 🚨 The Last Minute Life Saver
+# Run and deploy your AI Studio app
 
-An AI-powered productivity companion that helps users complete tasks before deadlines — not just remember them.
+This contains everything you need to run your app locally.
 
-## 📌 Problem
-People miss deadlines because reminders are easy to ignore.
+View your app in AI Studio: https://ai.studio/apps/94c59bed-d406-487a-a103-7621b8ff4407
 
-## 💡 Solution
-A proactive, AI-driven accountability system that:
-- Breaks tasks into actions
-- Prioritizes intelligently
-- Actively intervenes when users procrastinate
+## Run Locally
 
-## 🔑 Core Features
-- Smart task breakdown
-- Time-aware planning
-- Cognitive reinforcement
-- Attention lock with recall checks
-- Google Calendar + Gemini AI integration
+**Prerequisites:**  Node.js
 
-## 🧠 Powered By
-- Google Calendar
-- Gemini AI
+
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`
