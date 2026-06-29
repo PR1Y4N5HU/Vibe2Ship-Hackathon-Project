@@ -1,0 +1,14 @@
+# System Architecture
+
+## High-Level Components
+- Mobile Client (Android / iOS)
+- Backend API
+- AI Decision Engine
+- Notification Manager
+- Google Integration Layer
+
+## Design Principles
+- Mobile-first
+- Modular
+- Scalable
+- Privacy-focused
