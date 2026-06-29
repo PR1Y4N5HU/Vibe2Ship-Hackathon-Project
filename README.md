@@ -24,14 +24,3 @@ A proactive, AI-driven accountability system that:
 ## 🧠 Powered By
 - Google Calendar
 - Gemini AI
-
-## 📂 Documentation Index
-- [Problem Statement](PROBLEM_STATEMENT.md)
-- [Solution Overview](SOLUTION_OVERVIEW.md)
-- [Key Features](FEATURES.md)
-- [Architecture](ARCHITECTURE.md)
-- [AI Logic](AI_LOGIC.md)
-- [Google Integration](GOOGLE_INTEGRATION.md)
-- [User Flow](USER_FLOW.md)
-- [Security & Privacy](SECURITY_AND_PRIVACY.md)
-- [Roadmap](ROADMAP.md)
